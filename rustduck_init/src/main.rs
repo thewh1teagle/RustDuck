@@ -129,18 +129,30 @@ fn installer() -> Result<()> {
     create_config(&config_path);
 
     // write binary and close file (scop closing)
+    #[cfg(windows)]
     {
-        let mut binary_file = File::create(&binary_path).unwrap();
+        use std::fs::OpenOptions;
+        let mut binary_file = OpenOptions::new()
+            .create(true)
+            .write(true)
+            .open(&binary_path)
+            .unwrap();
         binary_file.write_all(binary_bytes).unwrap();
     }
-
-    // add permissions in non windows environemnts
+    
+    // Add permissions in non-Windows environments
     #[cfg(not(windows))]
     {
-        use std::fs::Permissions;
-        let perm = Permissions::from(0o755);
-        // Add execute permission for user, group, and others
-        binary_file.set_permissions(perm);
+        use std::fs::OpenOptions;
+        use std::os::unix::fs::OpenOptionsExt;
+        
+        let mut binary_file = OpenOptions::new()
+            .create(true)
+            .write(true)
+            .mode(0o777) // Set the mode to allow read, write, and execute for all
+            .open(&binary_path)
+            .unwrap();
+        binary_file.write_all(binary_bytes).unwrap();
     }
 
     println!("Config files written to {}", rustduck_dir.to_str().unwrap());

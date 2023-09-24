@@ -9,7 +9,6 @@ use reqwest;
 use tokio::time;
 use serde::Deserialize;
 use serde_json;
-use home;
 use std::path::Path;
 
 #[derive(Parser, Debug)]

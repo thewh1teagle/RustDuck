@@ -46,8 +46,7 @@ async fn main() {
     let config_path = if let Some(config) = &args.config_path {
         Path::new(config).to_path_buf()
     } else {
-        let home_dir = home::home_dir().unwrap();
-        let config_path = Path::new(&home_dir).join("duckdns.config.json");
+        let config_path = Path::new("duckdns.config.json").to_path_buf();
         config_path
     };
     

@@ -1,0 +1,5 @@
+{
+    "token": "aaaaaaaa-bbbb-cccc-dddd-cccccccccccc",
+    "domains": ["domain", "second_domain"],
+    "duration": "10m"
+}

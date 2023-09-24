@@ -1,3 +1,6 @@
+// run without open terminal
+#![windows_subsystem = "windows"]
+
 use std::process;
 use std::fs;
 use clap::Parser;

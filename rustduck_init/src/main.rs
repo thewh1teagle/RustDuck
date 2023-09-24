@@ -134,6 +134,15 @@ fn installer() -> Result<()> {
         binary_file.write_all(binary_bytes).unwrap();
     }
 
+    // add permissions in non windows environemnts
+    #[cfg(not(windows))]
+    {
+        use std::fs::Permissions;
+        let perm = Permissions::from(0o755);
+        // Add execute permission for user, group, and others
+        binary_file.set_permissions(perm);
+    }
+
     println!("Config files written to {}", rustduck_dir.to_str().unwrap());
 
     start_program(&rustduck_dir);

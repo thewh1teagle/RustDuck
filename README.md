@@ -13,8 +13,7 @@ Download `rustduck_init` from [releases](https://github.com/thewh1teagle/RustDuc
 Start it and follow the instructions
 
 ### TODO
-- [ ] User friendly installer
-- [ ] Create config from `CLI`
+- [X] User friendly installer
 - [ ] `winget` package
 - [ ] `apt` package
 

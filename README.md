@@ -8,9 +8,27 @@
 Cross Platform duckdns.org updater  
 
 
-## Install
+## Automatic Installer
 Download `rustduck_init` from [releases](https://github.com/thewh1teagle/RustDuck/releases/)  
 Start it and follow the instructions
+
+## Manual Install
+Navigate into [rustduck folder](https://github.com/thewh1teagle/RustDuck/tree/main/rustduck) and build it
+```shell
+cargo build --release
+```
+Create config file named `config.json`
+```json
+{
+    "token": "aaaaaaaa-bbbb-cccc-dddd-cccccccccccc",
+    "domains": ["domain", "second_domain"],
+    "duration": "10m"
+}
+```
+Then run it
+```shell
+./rustduck -c config.json
+```
 
 ### TODO
 - [X] User friendly installer

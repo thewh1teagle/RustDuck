@@ -1,15 +1,16 @@
 use eyre::{ContextCompat, Result};
-use std::path::PathBuf;
-use tauri::{AppHandle, Manager};
+use std::{path::PathBuf, sync::Arc};
+use tauri::{AppHandle, Manager, State};
+use tokio::sync::Mutex;
 
 use crate::config::{self, DomainsConfig};
-
-pub fn setup(app_handle: AppHandle, mut config: DomainsConfig) -> Result<()> {
+pub async fn setup(app_handle: AppHandle, mut config: DomainsConfig) -> Result<()> {
     config.interval_minutes = Some(10); // 10 minutes
-    for mut domain in config.clone().domains {
-        domain.enable = Some(true);
+    for domain in &mut config.domains {
+        domain.enable = Some(false);
     }
-    set(&app_handle, &config)?;
+    log::debug!("storing {:?}", config);
+    set(&app_handle, &config).await?;
     Ok(())
 }
 
@@ -30,7 +31,10 @@ pub fn get(app_handle: &AppHandle) -> Result<Option<DomainsConfig>> {
     Ok(None)
 }
 
-pub fn set(app_handle: &AppHandle, config: &DomainsConfig) -> Result<()> {
+pub async fn set(app_handle: &AppHandle, config: &DomainsConfig) -> Result<()> {
+    // Update global state
+    let config_state: State<'_, Arc<Mutex<Option<DomainsConfig>>>> = app_handle.state();
+    *config_state.lock().await = Some(config.clone());
     let path = store_path(app_handle.clone())?;
     std::fs::create_dir_all(path.parent().context("no parent")?)?;
     let serialized = serde_json::to_string_pretty(config)?;

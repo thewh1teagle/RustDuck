@@ -1,0 +1,27 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "main",
+  "description": "default permissions",
+  "local": true,
+  "windows": [
+    "main",
+    "duckdns"
+  ],
+  "permissions": [
+    "path:default",
+    "event:allow-listen",
+    "window:default",
+    "app:default",
+    "resources:default",
+    "menu:default",
+    "tray:default",
+    "window:default",
+    "window:allow-unminimize",
+    "window:allow-set-focus",
+    "window:allow-show",
+    "webview:default",
+    "app:default",
+    "app:allow-version",
+    "app:allow-name"
+  ]
+}

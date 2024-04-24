@@ -14,10 +14,20 @@ mod tray;
 #[cfg(target_os = "macos")]
 mod dock;
 
+use clap::Parser;
+
 #[derive(Clone, serde::Serialize)]
 struct Payload {
     args: Vec<String>,
     cwd: String,
+}
+
+#[derive(Parser, Debug)]
+#[command(version, about, long_about = None)]
+struct Args {
+    /// Start app minimized
+    #[arg(short, long)]
+    minimized: bool,
 }
 
 pub fn main() {
@@ -25,7 +35,7 @@ pub fn main() {
     tauri::Builder::default()
         .plugin(tauri_plugin_autostart::init(
             MacosLauncher::LaunchAgent,
-            None,
+            Some(vec!["--minimized"]),
         ))
         .plugin(tauri_plugin_single_instance::init(|app, _argv, _cwd| {
             app.emit("single-instance", serde_json::json!({})).unwrap();

@@ -1,11 +1,17 @@
+use clap::Parser;
 use std::{error::Error, sync::Arc};
 use tauri::{App, Manager};
 use tokio::sync::Mutex;
 
-use crate::{cmd, duckdns, store, tray::create_tray};
+use crate::{cmd, duckdns, store, tray::create_tray, Args};
 
 pub fn setup(app: &mut App) -> Result<(), Box<dyn Error>> {
-    cmd::open_main_window(app.app_handle()).unwrap();
+    let args = Args::parse();
+    log::debug!("args: {:?}", args);
+    if !args.minimized {
+        cmd::open_main_window(app.app_handle()).unwrap();
+    }
+
     let app_handle = app.app_handle();
     let app_handle1 = app_handle.clone();
     create_tray(app_handle)?;

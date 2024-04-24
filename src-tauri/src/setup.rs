@@ -5,6 +5,7 @@ use tokio::sync::Mutex;
 use crate::{cmd, duckdns, store, tray::create_tray};
 
 pub fn setup(app: &mut App) -> Result<(), Box<dyn Error>> {
+    cmd::open_main_window(app.app_handle()).unwrap();
     let app_handle = app.app_handle();
     let app_handle1 = app_handle.clone();
     create_tray(app_handle)?;

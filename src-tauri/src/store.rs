@@ -15,10 +15,12 @@ pub async fn setup(app_handle: AppHandle, mut config: DomainsConfig) -> Result<(
 }
 
 pub fn store_path(app_handle: AppHandle) -> Result<PathBuf> {
-    Ok(app_handle
+    let path = app_handle
         .path()
         .config_dir()?
-        .join(config::CONFIG_FILENAME))
+        .join(config::CONFIG_FILENAME);
+    log::debug!("store path: {}", path.display());
+    Ok(path)
 }
 
 pub fn get(app_handle: &AppHandle) -> Result<Option<DomainsConfig>> {

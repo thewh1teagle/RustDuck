@@ -5,7 +5,7 @@ use tokio::sync::Mutex;
 
 use crate::{
     config::{self, DomainsConfig},
-    dock, duckdns, store,
+    duckdns, store,
 };
 use std::path::PathBuf;
 
@@ -22,7 +22,7 @@ pub async fn update_domains(config: State<'_, Arc<Mutex<Option<DomainsConfig>>>>
 pub fn open_main_window(app_handle: &AppHandle) -> Result<()> {
     #[cfg(target_os = "macos")]
     {
-        dock::set_dock_visible(true);
+        crate::dock::set_dock_visible(true);
     }
 
     if let Some(window) = app_handle.get_webview_window("main") {

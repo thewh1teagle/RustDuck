@@ -8,5 +8,4 @@ export interface DomainsConfig {
   token: string;
   interval_minutes?: number;
   domains: Domain[];
-  enable: boolean;
 }

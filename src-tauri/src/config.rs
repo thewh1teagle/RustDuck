@@ -12,7 +12,6 @@ pub struct DomainsConfig {
     pub token: String,
     pub interval_minutes: Option<u64>,
     pub domains: Vec<Domain>,
-    pub enable: Option<bool>,
 }
 
 pub const CONFIG_FILENAME: &str = "config.json";

@@ -6,11 +6,13 @@ use tray::EXIT_FLAG;
 
 mod cmd;
 mod config;
-mod dock;
 mod duckdns;
 mod setup;
 mod store;
 mod tray;
+
+#[cfg(target_os = "macos")]
+mod dock;
 
 #[derive(Clone, serde::Serialize)]
 struct Payload {
@@ -44,7 +46,10 @@ pub fn main() {
             if let tauri::RunEvent::ExitRequested { api, .. } = event {
                 if !EXIT_FLAG.load(std::sync::atomic::Ordering::Relaxed) {
                     api.prevent_exit();
-                    dock::set_dock_visible(false);
+                    #[cfg(target_os = "macos")]
+                    {
+                        dock::set_dock_visible(false);
+                    }
                     for (_label, window) in app_handle.webview_windows() {
                         window.close().unwrap();
                     }

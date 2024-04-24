@@ -5,7 +5,7 @@ use tokio::sync::Mutex;
 
 use crate::{
     config::{self, DomainsConfig},
-    duckdns, store,
+    dock, duckdns, store,
 };
 use std::path::PathBuf;
 
@@ -20,16 +20,18 @@ pub async fn update_domains(config: State<'_, Arc<Mutex<Option<DomainsConfig>>>>
 
 #[command]
 pub fn open_main_window(app_handle: &AppHandle) -> Result<()> {
+    dock::set_dock_visible(true);
     if let Some(window) = app_handle.get_webview_window("main") {
         window.show().unwrap();
         window.set_focus().unwrap();
     } else {
         let url = tauri::WebviewUrl::App(PathBuf::from_str("/index.html").unwrap());
         tauri::WebviewWindowBuilder::new(app_handle, "main", url)
-            .visible(false)
+            .visible(true)
             .build()
             .unwrap();
     }
+
     Ok(())
 }
 
@@ -39,6 +41,7 @@ pub async fn login(app_handle: AppHandle) {
     let url = tauri::WebviewUrl::External(url);
     WebviewWindowBuilder::new(&app_handle, "duckdns", url)
         .visible(true)
+        .title("DuckDNS Login")
         .initialization_script(include_str!("../scripts/duckdns.js"))
         .build()
         .unwrap();

@@ -32,13 +32,15 @@ struct Args {
 
 pub fn main() {
     env_logger::init();
+    log::debug!("init");
     tauri::Builder::default()
         .plugin(tauri_plugin_autostart::init(
             MacosLauncher::LaunchAgent,
             Some(vec!["--minimized"]),
         ))
         .plugin(tauri_plugin_single_instance::init(|app, _argv, _cwd| {
-            app.emit("single-instance", serde_json::json!({})).unwrap();
+            cmd::open_main_window(app).unwrap();
+            log::debug!("single instance event");
         }))
         .setup(setup::setup)
         .invoke_handler(tauri::generate_handler![

@@ -20,14 +20,15 @@ pub async fn update_domains(config: State<'_, Arc<Mutex<Option<DomainsConfig>>>>
 
 #[command]
 pub fn open_main_window(app_handle: &AppHandle) -> Result<()> {
-    #[cfg(target_os = "macos")]
-    {
-        crate::dock::set_dock_visible(true);
-    }
+    // #[cfg(target_os = "macos")]
+    // {
+
+    // }
+    crate::dock::set_dock_visible(true);
 
     if let Some(window) = app_handle.get_webview_window("main") {
-        window.show().unwrap();
         window.set_focus().unwrap();
+        window.show().unwrap();
     } else {
         let url = tauri::WebviewUrl::App(PathBuf::from_str("/index.html").unwrap());
         tauri::WebviewWindowBuilder::new(app_handle, "main", url)

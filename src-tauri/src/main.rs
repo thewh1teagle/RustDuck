@@ -28,7 +28,6 @@ pub fn main() {
             None,
         ))
         .plugin(tauri_plugin_single_instance::init(|app, _argv, _cwd| {
-            cmd::open_main_window(app).unwrap();
             app.emit("single-instance", serde_json::json!({})).unwrap();
         }))
         .setup(setup::setup)

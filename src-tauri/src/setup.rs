@@ -9,7 +9,6 @@ pub fn setup(app: &mut App) -> Result<(), Box<dyn Error>> {
     let app_handle = app.app_handle();
     let app_handle1 = app_handle.clone();
     create_tray(app_handle)?;
-    // let app_arc = Arc::new(app);
     let app_handle = app.handle();
     app_handle.listen("single-instance", move |_event| {
         cmd::open_main_window(&app_handle1).unwrap();

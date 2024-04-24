@@ -40,8 +40,8 @@ pub fn main() {
         ])
         .build(tauri::generate_context!())
         .expect("error while running tauri application")
-        .run(|app_handle, event| match event {
-            tauri::RunEvent::ExitRequested { api, .. } => {
+        .run(|app_handle, event| {
+            if let tauri::RunEvent::ExitRequested { api, .. } = event {
                 if !EXIT_FLAG.load(std::sync::atomic::Ordering::Relaxed) {
                     api.prevent_exit();
                     dock::set_dock_visible(false);
@@ -50,6 +50,5 @@ pub fn main() {
                     }
                 }
             }
-            _ => {}
         });
 }

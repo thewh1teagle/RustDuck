@@ -34,6 +34,7 @@ pub fn main() {
     env_logger::init();
     log::debug!("init");
     tauri::Builder::default()
+        .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_autostart::init(
             MacosLauncher::LaunchAgent,
             Some(vec!["--minimized"]),
@@ -50,7 +51,8 @@ pub fn main() {
             cmd::get_config,
             cmd::logout,
             cmd::update_domains,
-            cmd::show_window
+            cmd::show_window,
+            cmd::app_info
         ])
         .build(tauri::generate_context!())
         .expect("error while running tauri application")

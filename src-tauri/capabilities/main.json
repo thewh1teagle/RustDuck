@@ -25,6 +25,8 @@
     "app:allow-name",
     "autostart:allow-enable",
     "autostart:allow-disable",
-    "autostart:allow-is-enabled"
+    "autostart:allow-is-enabled",
+    "shell:default",
+    "shell:allow-open"
   ]
 }

@@ -27,6 +27,7 @@ env_logger = "0.11.3"
 reqwest = "0.12.4"
 tokio = "1.37.0"
 clap = { version = "4.5.4", features = ["derive"] }
+tauri-plugin-shell = "2.0.0-beta.3"
 
 [target.'cfg(target_os = "macos")'.dependencies]
 cocoa = "0.25.0"

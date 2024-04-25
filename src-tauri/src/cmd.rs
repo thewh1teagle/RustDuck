@@ -1,4 +1,5 @@
 use eyre::Result;
+use serde_json::Value;
 use std::{str::FromStr, sync::Arc};
 use tauri::{command, AppHandle, Manager, State, Url, WebviewWindowBuilder};
 use tokio::sync::Mutex;
@@ -8,6 +9,13 @@ use crate::{
     duckdns, store,
 };
 use std::path::PathBuf;
+
+#[tauri::command]
+pub fn app_info(app_handle: AppHandle) -> Value {
+    let commit = env!("COMMIT_HASH").to_string();
+    let version = app_handle.package_info().version.to_string();
+    serde_json::json!({"commit": commit, "version": version})
+}
 
 #[command]
 pub async fn update_domains(config: State<'_, Arc<Mutex<Option<DomainsConfig>>>>) -> Result<()> {

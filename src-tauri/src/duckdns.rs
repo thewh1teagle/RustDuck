@@ -47,11 +47,13 @@ pub async fn updater_task(config: Arc<Mutex<Option<DomainsConfig>>>) {
                     log::error!("error while updating: {:?}", report);
                 }
             }
-            log::debug!("Sleeping for {:?}", config.interval_minutes);
+
             let duration = config
                 .interval_minutes
-                .unwrap_or(crate::config::DEFAULT_INTERVAL_MINUTES);
-            sleep(Duration::from_secs(duration * 60)).await;
+                .unwrap_or(crate::config::DEFAULT_INTERVAL_MINUTES)
+                * 60;
+            log::debug!("Sleeping for {:?} seconds", duration);
+            sleep(Duration::from_secs(duration)).await;
         } else {
             // sleep for 10 seconds and check again
             // config may be updated

@@ -16,4 +16,4 @@ pub struct DomainsConfig {
 
 pub const CONFIG_FILENAME: &str = "config.json";
 pub const LOGIN_URL: &str = "https://www.duckdns.org/";
-pub const DEFAULT_INTERVAL: u64 = 10;
+pub const DEFAULT_INTERVAL_MINUTES: u64 = 10;

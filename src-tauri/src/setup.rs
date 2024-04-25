@@ -8,7 +8,9 @@ use crate::{cmd, duckdns, store, tray::create_tray, Args};
 pub fn setup(app: &mut App) -> Result<(), Box<dyn Error>> {
     let args = Args::parse();
     log::debug!("args: {:?}", args);
-    if !args.minimized {
+    if args.minimized {
+        crate::dock::set_dock_visible(false);
+    } else {
         cmd::open_main_window(app.app_handle()).unwrap();
     }
 

@@ -19,6 +19,14 @@ pub async fn update_domains(config: State<'_, Arc<Mutex<Option<DomainsConfig>>>>
 }
 
 #[command]
+pub fn show_window(app_handle: AppHandle, label: String) {
+    if let Some(window) = app_handle.get_webview_window(&label) {
+        window.show().unwrap();
+        window.set_focus().unwrap();
+    }
+}
+
+#[command]
 pub fn open_main_window(app_handle: &AppHandle) -> Result<()> {
     #[cfg(target_os = "macos")]
     {
@@ -33,7 +41,7 @@ pub fn open_main_window(app_handle: &AppHandle) -> Result<()> {
         tauri::WebviewWindowBuilder::new(app_handle, "main", url)
             .title("RustDuck")
             .inner_size(800.0, 600.0)
-            .visible(true)
+            .visible(false)
             .build()
             .unwrap();
     }

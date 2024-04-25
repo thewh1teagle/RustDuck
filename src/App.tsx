@@ -33,6 +33,7 @@ function App() {
     if (config) {
       setConfig(config as DomainsConfig);
     }
+    await invoke("show_window", { label: "main" });
   }
 
   useEffect(() => {

@@ -49,7 +49,8 @@ pub fn main() {
             cmd::set_config,
             cmd::get_config,
             cmd::logout,
-            cmd::update_domains
+            cmd::update_domains,
+            cmd::show_window
         ])
         .build(tauri::generate_context!())
         .expect("error while running tauri application")

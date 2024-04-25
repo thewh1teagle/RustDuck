@@ -26,8 +26,8 @@ pub fn open_main_window(app_handle: &AppHandle) -> Result<()> {
     }
 
     if let Some(window) = app_handle.get_webview_window("main") {
-        window.set_focus().unwrap();
         window.show().unwrap();
+        window.set_focus().unwrap();
     } else {
         let url = tauri::WebviewUrl::App(PathBuf::from_str("/index.html").unwrap());
         tauri::WebviewWindowBuilder::new(app_handle, "main", url)

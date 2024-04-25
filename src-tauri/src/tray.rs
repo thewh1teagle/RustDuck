@@ -12,9 +12,10 @@ pub static EXIT_FLAG: AtomicBool = AtomicBool::new(false);
 
 pub fn create_tray(app: &AppHandle) -> tauri::Result<()> {
     let quit_i = MenuItem::with_id(app, "quit", "Quit RustDuck", true, None::<&str>)?;
+    let open_i = MenuItem::with_id(app, "open", "Open RustDuck", true, None::<&str>)?;
     let app_clone = app.clone();
     let app_clone1 = app.clone();
-    let menu = Menu::with_items(&app.clone(), &[&quit_i])?;
+    let menu = Menu::with_items(&app.clone(), &[&open_i, &quit_i])?;
     let _ = TrayIconBuilder::with_id("tray")
         .tooltip("RustDuck")
         .icon(app.clone().default_window_icon().unwrap().clone())
@@ -24,6 +25,9 @@ pub fn create_tray(app: &AppHandle) -> tauri::Result<()> {
             if event.id.as_ref() == "quit" {
                 EXIT_FLAG.store(true, std::sync::atomic::Ordering::Relaxed);
                 app.exit(0);
+            }
+            if event.id.as_ref() == "open" {
+                cmd::open_main_window(app).unwrap();
             }
         })
         .on_tray_icon_event(move |_tray, event| {

@@ -16,3 +16,4 @@ Download from [releases](https://github.com/thewh1teagle/RustDuck/releases)
 - Autostart when booting
 - Lightweight: just 2MB
 - Always available in tray menu
+- Efficient resource usage: Minimizes CPU and RAM when in tray

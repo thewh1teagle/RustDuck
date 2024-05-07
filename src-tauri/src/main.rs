@@ -1,28 +1,18 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
-use tauri::Manager;
 use tauri_plugin_autostart::MacosLauncher;
-use tray::EXIT_FLAG;
 
 mod cmd;
 mod config;
 mod duckdns;
+mod runtime;
 mod setup;
 mod store;
 mod tray;
+use clap::Parser;
 
 #[cfg(target_os = "macos")]
 mod dock;
-
-use clap::Parser;
-
-use crate::cmd::open_main_window;
-
-#[derive(Clone, serde::Serialize)]
-struct Payload {
-    args: Vec<String>,
-    cwd: String,
-}
 
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
@@ -42,8 +32,8 @@ pub fn main() {
             Some(vec!["--minimized"]),
         ))
         .plugin(tauri_plugin_single_instance::init(|app, _argv, _cwd| {
-            cmd::open_main_window(app).unwrap();
             log::debug!("single instance event");
+            cmd::open_main_window(app).unwrap();
         }))
         .setup(setup::setup)
         .invoke_handler(tauri::generate_handler![
@@ -58,23 +48,5 @@ pub fn main() {
         ])
         .build(tauri::generate_context!())
         .expect("error while running tauri application")
-        .run(|app_handle, event| match event {
-            #[cfg(target_os = "macos")]
-            tauri::RunEvent::Reopen { .. } => {
-                open_main_window(app_handle).unwrap();
-            }
-            tauri::RunEvent::ExitRequested { api, .. } => {
-                if !EXIT_FLAG.load(std::sync::atomic::Ordering::Relaxed) {
-                    api.prevent_exit();
-                    #[cfg(target_os = "macos")]
-                    {
-                        dock::set_dock_visible(false);
-                    }
-                    for (_label, window) in app_handle.webview_windows() {
-                        window.close().unwrap();
-                    }
-                }
-            }
-            _ => {}
-        });
+        .run(runtime::on_run_event);
 }

@@ -58,10 +58,12 @@ pub fn main() {
         ])
         .build(tauri::generate_context!())
         .expect("error while running tauri application")
-        .run(|app_handle, event| {
-            if let tauri::RunEvent::Reopen { .. } = event {
+        .run(|app_handle, event| match event {
+            #[cfg(target_os = "macos")]
+            tauri::RunEvent::Reopen { .. } => {
                 open_main_window(app_handle).unwrap();
-            } else if let tauri::RunEvent::ExitRequested { api, .. } = event {
+            }
+            tauri::RunEvent::ExitRequested { api, .. } => {
                 if !EXIT_FLAG.load(std::sync::atomic::Ordering::Relaxed) {
                     api.prevent_exit();
                     #[cfg(target_os = "macos")]
@@ -73,5 +75,6 @@ pub fn main() {
                     }
                 }
             }
+            _ => {}
         });
 }

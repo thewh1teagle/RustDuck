@@ -1,6 +1,6 @@
 {
   "productName": "RustDuck",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "identifier": "github.com.thewh1teagle.rustduck",
   "build": {
     "beforeDevCommand": "npm run dev",

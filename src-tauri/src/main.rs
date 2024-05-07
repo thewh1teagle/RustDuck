@@ -61,8 +61,7 @@ pub fn main() {
         .run(|app_handle, event| {
             if let tauri::RunEvent::Reopen { .. } = event {
                 open_main_window(app_handle).unwrap();
-            }
-            else if let tauri::RunEvent::ExitRequested { api, .. } = event {
+            } else if let tauri::RunEvent::ExitRequested { api, .. } = event {
                 if !EXIT_FLAG.load(std::sync::atomic::Ordering::Relaxed) {
                     api.prevent_exit();
                     #[cfg(target_os = "macos")]

@@ -49,6 +49,7 @@ pub fn open_main_window(app_handle: &AppHandle) -> Result<()> {
         tauri::WebviewWindowBuilder::new(app_handle, "main", url)
             .title("RustDuck")
             .inner_size(800.0, 600.0)
+            .center()
             .visible(false)
             .build()
             .unwrap();

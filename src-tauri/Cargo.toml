@@ -1,22 +1,20 @@
 [package]
-name = "app"
+name = "rust_duck"
 version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
-license = ""
-repository = ""
+description = "RustDuck"
+authors = ["thewh1teagle"]
+license = "MIT"
+repository = "https://github.com/thewh1teagle/RustDuck"
 edition = "2021"
 rust-version = "1.70"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [build-dependencies]
-tauri-build = { version = "2.0.0-beta.9", features = [] }
+tauri-build = { version = "=2.0.0-beta.15", features = [] }
 
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { git = "https://github.com/tauri-apps/tauri", version = "2.0.0-beta",features = ["tray-icon"] }
+tauri = { version = "=2.0.0-beta.19",features = ["tray-icon"] }
 tauri-plugin-single-instance = "2.0.0-beta"
 tauri-plugin-autostart = "2.0.0-beta"
 eyre = { git = "https://github.com/thewh1teagle/eyre", branch = "feat/report-serialize", features = [
@@ -36,7 +34,3 @@ cocoa = "0.25.0"
 # this feature is used for production builds or when `devPath` points to the filesystem
 # DO NOT REMOVE!!
 custom-protocol = ["tauri/custom-protocol"]
-
-
-[patch.crates-io]
-tauri = { git = "https://github.com/tauri-apps/tauri", version = "2.0.0-beta",features = ["tray-icon"] }

@@ -4,7 +4,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
 import { DomainsConfig } from "./config";
 import Menu from "./components/Menu";
-
+import logo from './assets/logo.png'
 export function login() {
   invoke("login");
 }
@@ -46,11 +46,17 @@ function App() {
 
   if (!config) {
     return (
-      <div className="w-[100vw] h-[100vh] flex flex-col items-center">
-        <h1 className="text-3xl mt-10">RustDuck</h1>
-        <button onClick={login} className="btn btn-primary btn-lg mt-36">
-          Log in to DuckDNS
-        </button>
+      <div className="w-full h-full flex justify-center items-center p-10">
+        <div className="bg-transparent border-primary border-2 p-6 rounded-xl shadow-lg">
+          <h1 className="text-3xl font-bold mb-4 text-center opacity-60">Welcome to RustDuck</h1>
+          <p className="text-md text-center opacity-60">Domains will be automatically fetched once you sign in.</p>
+          <div className="flex justify-center mt-6">
+            <button onClick={login} className="btn btn-md btn-primary font-bold">
+              <img className="w-7 h-7 mr-2" src={logo} alt="DuckDNS Logo" />
+              Sign in with DuckDNS
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -82,7 +88,7 @@ function App() {
         {config.domains.map((domain) => (
           <div
             key={domain.name}
-            className="shadow-lg flex flex-row justify-between  p-2 bg-neutral rounded-lg w-full"
+            className="shadow-lg flex flex-row justify-between  p-2 bg-base-300 rounded-lg w-full"
           >
             <div className="flex flex-col">
               <div className="text-lg">{domain.name}</div>

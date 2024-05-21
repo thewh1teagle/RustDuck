@@ -77,7 +77,7 @@ export default function Menu({ config, setConfig }: MenuProps) {
       </div>
       <ul
         tabIndex={0}
-        className="dropdown-content z-[1] menu p-2 gap-2 shadow bg-base-100 rounded-box w-52"
+        className="dropdown-content z-[1] menu p-2 gap-2 shadow-lg bg-base-300  rounded-box w-52"
       >
         <label className="form-control w-full max-w-xs">
           <span className="label-text text-sm mb-2">Autostart</span>

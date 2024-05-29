@@ -2,7 +2,7 @@ use std::sync::atomic::AtomicBool;
 
 use tauri::{
     menu::{Menu, MenuEvent, MenuItem},
-    tray::{ClickType, TrayIconBuilder},
+    tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
     AppHandle,
 };
 
@@ -32,8 +32,13 @@ pub fn create_tray(app: &AppHandle) -> tauri::Result<()> {
         })
         .on_tray_icon_event(move |_tray, event| {
             let app_clone = app_clone.clone();
-            if event.click_type == ClickType::Left {
-                // Focus window
+            if let TrayIconEvent::Click {
+                button: MouseButton::Left,
+                button_state: MouseButtonState::Up,
+                ..
+            } = event
+            {
+                // focus window
                 cmd::open_main_window(&app_clone).unwrap();
             }
         })

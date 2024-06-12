@@ -10,7 +10,7 @@ sudo apt install "libayatana-appindicator3*"
 
 NodeJS
 ```console
-bunx ncu -u
+bunx npm-check-updates -u -t newest
 # add -t newest for beta
 ```
 

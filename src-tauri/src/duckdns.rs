@@ -25,7 +25,7 @@ pub async fn update_domains(config: DomainsConfig) -> Result<Option<String>> {
         "https://www.duckdns.org/update?domains={}&token={}",
         domains, config.token
     );
-    log::debug!("GET {}", url);
+    tracing::debug!("GET {}", url);
     let res = client.get(url).send().await?.text().await?;
     if !res.contains("OK") {
         bail!("Bad response: {}", res);
@@ -41,10 +41,10 @@ pub async fn updater_task(config: Arc<Mutex<Option<DomainsConfig>>>) {
 
             match result {
                 Ok(result) => {
-                    log::debug!("Response: {:?}", result);
+                    tracing::debug!("Response: {:?}", result);
                 }
                 Err(report) => {
-                    log::error!("error while updating: {:?}", report);
+                    tracing::error!("error while updating: {:?}", report);
                 }
             }
 
@@ -52,7 +52,7 @@ pub async fn updater_task(config: Arc<Mutex<Option<DomainsConfig>>>) {
                 .interval_minutes
                 .unwrap_or(crate::config::DEFAULT_INTERVAL_MINUTES)
                 * 60;
-            log::debug!("Sleeping for {:?} seconds", duration);
+            tracing::debug!("Sleeping for {:?} seconds", duration);
             sleep(Duration::from_secs(duration)).await;
         } else {
             // sleep for 10 seconds and check again

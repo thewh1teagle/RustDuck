@@ -38,20 +38,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - name: install Rust stable and clippy
         uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy
-      - name: setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-      - name: install node deps
-        run: npm install
-      - name: build react
-        run: npm run build
 
       - uses: Swatinem/rust-cache@v2
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: install dependencies
+        run: bun install
+
+      - name: build
+        run: bun run build
 
       - name: run Clippy
         run: cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets --all-features -- -D warnings

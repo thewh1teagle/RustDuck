@@ -1,6 +1,5 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
-use tauri_plugin_autostart::MacosLauncher;
 
 mod cmd;
 mod config;
@@ -10,6 +9,7 @@ mod setup;
 mod store;
 mod tray;
 use clap::Parser;
+use tauri_plugin_autostart::MacosLauncher;
 
 #[cfg(target_os = "macos")]
 mod dock;
@@ -23,8 +23,11 @@ struct Args {
 }
 
 pub fn main() {
-    env_logger::init();
-    log::debug!("init");
+    tracing_subscriber::fmt()
+        .with_line_number(true)
+        .with_file(true)
+        .init();
+    tracing::debug!("init");
     tauri::Builder::default()
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_autostart::init(
@@ -32,7 +35,7 @@ pub fn main() {
             Some(vec!["--minimized"]),
         ))
         .plugin(tauri_plugin_single_instance::init(|app, _argv, _cwd| {
-            log::debug!("single instance event");
+            tracing::debug!("single instance event");
             cmd::open_main_window(app).unwrap();
         }))
         .setup(setup::setup)

@@ -6,7 +6,7 @@ use tauri::Manager;
 use crate::dock;
 
 pub fn on_run_event(app_handle: &tauri::AppHandle, event: tauri::RunEvent) {
-    log::trace!("Run event: {:?}", event);
+    tracing::trace!("Run event: {:?}", event);
     match event {
         #[cfg(target_os = "macos")]
         tauri::RunEvent::Reopen { .. } => {

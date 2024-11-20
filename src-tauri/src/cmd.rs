@@ -1,6 +1,7 @@
 use eyre::Result;
 use serde_json::Value;
 use std::{str::FromStr, sync::Arc};
+use tauri::Emitter;
 use tauri::{command, AppHandle, Manager, State, Url, WebviewWindowBuilder};
 use tokio::sync::Mutex;
 

@@ -9,28 +9,28 @@ edition = "2021"
 rust-version = "1.70"
 
 [build-dependencies]
-tauri-build = { version = "=2.0.0-beta.17", features = [] }
+tauri-build = { version = "2", features = [] }
 
 [dependencies]
-serde_json = "1.0"
-serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "=2.0.0-beta.21",features = ["tray-icon"] }
-tauri-plugin-single-instance = "2.0.0-beta.0"
-tauri-plugin-autostart = "2.0.0-beta.0"
+# Tauri
+tauri = { version = "2",features = ["tray-icon"] }
+tauri-plugin-single-instance = "2"
+tauri-plugin-autostart = "2"
+tauri-plugin-shell = "2"
+
+# Log
+tracing = "0.1.40"
+tracing-subscriber = "0.3.18"
+
+clap = { version = "4.5.4", features = ["derive"] }
 eyre = { git = "https://github.com/thewh1teagle/eyre", branch = "feat/report-serialize", features = [
   "serialize",
 ] }
-log = "0.4.21"
-env_logger = "0.11.3"
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
 reqwest = "0.12.4"
 tokio = "1.37.0"
-clap = { version = "4.5.4", features = ["derive"] }
-tauri-plugin-shell = "2.0.0-beta.3"
 
 [target.'cfg(target_os = "macos")'.dependencies]
 cocoa = "0.25.0"
 
-[features]
-# this feature is used for production builds or when `devPath` points to the filesystem
-# DO NOT REMOVE!!
-custom-protocol = ["tauri/custom-protocol"]

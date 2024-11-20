@@ -9,7 +9,7 @@ pub async fn setup(app_handle: AppHandle, mut config: DomainsConfig) -> Result<(
     for domain in &mut config.domains {
         domain.enable = Some(false);
     }
-    log::debug!("storing {:?}", config);
+    tracing::debug!("storing {:?}", config);
     set(&app_handle, &config).await?;
     Ok(())
 }
@@ -19,7 +19,7 @@ pub fn store_path(app_handle: AppHandle) -> Result<PathBuf> {
         .path()
         .app_config_dir()?
         .join(config::CONFIG_FILENAME);
-    log::debug!("store path: \"{}\"", path.display());
+    tracing::debug!("store path: \"{}\"", path.display());
     Ok(path)
 }
 
@@ -40,7 +40,7 @@ pub async fn set(app_handle: &AppHandle, config: &DomainsConfig) -> Result<()> {
     let path = store_path(app_handle.clone())?;
     std::fs::create_dir_all(path.parent().context("no parent")?)?;
     let serialized = serde_json::to_string_pretty(config)?;
-    log::debug!("writing to {}", path.display());
+    tracing::debug!("writing to {}", path.display());
     std::fs::write(&path, serialized)?;
     Ok(())
 }

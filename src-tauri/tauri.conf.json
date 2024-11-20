@@ -1,10 +1,10 @@
 {
   "productName": "RustDuck",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "identifier": "github.com.thewh1teagle.rustduck",
   "build": {
-    "beforeDevCommand": "npm run dev",
-    "beforeBuildCommand": "npm run build",
+    "beforeDevCommand": "bun run dev",
+    "beforeBuildCommand": "bun run build",
     "frontendDist": "../dist",
     "devUrl": "http://localhost:1420"
   },

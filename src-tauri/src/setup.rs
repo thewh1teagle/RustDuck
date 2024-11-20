@@ -7,7 +7,7 @@ use crate::{cmd, duckdns, store, tray::create_tray, Args};
 
 pub fn setup(app: &mut App) -> Result<(), Box<dyn Error>> {
     let args = Args::parse();
-    log::debug!("args: {:?}", args);
+    tracing::debug!("args: {:?}", args);
     if args.minimized {
         #[cfg(target_os = "macos")]
         {
